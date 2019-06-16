@@ -2,10 +2,14 @@
 
 ## System Requirement
 - Ubuntu 16.04 64 bit
+- Python2
+- Kali Linux
+- SSH
 
-## Pre System Setup
+## Download Links
 - [Virtual Box 64bit](https://download.virtualbox.org/virtualbox/6.0.8/virtualbox-6.0_6.0.8-130520~Ubuntu~xenial_amd64.deb) - Download Virtual Box for Linux Hosts Link
 - [Kali Linux Virtual Box Image 64bit](https://images.offensive-security.com/virtual-images/kali-linux-2019.2-vbox-amd64.ova) - Kali linux VM VMware Virtual Box Image Download Link
+- [SSH Passwordless Authentication Setup](https://confluence.atlassian.com/bitbucketserver/creating-ssh-keys-776639788.html)
 
 ## Python2 Setup
 
