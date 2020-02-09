@@ -1,28 +1,41 @@
-import socket
-import threading
+import socket, threading
 
-BIND_IP = '0.0.0.0'
+class ClientThread(threading.Thread):
+    def __init__(self, clientAddress, clientSocket):
+        threading.Thread.__init__(self)
+        self.caddress = clientAddress
+        self.csocket = clientSocket
+        print('New connection added: ', clientAddress)
+    def run(self):
+        print('Connection from: ', self.caddress)
+        msg = ''
+        while True:
+            data = self.csocket.recv(2048)
+            msg = data.decode()
+
+            if msg == 'bye':
+                break
+            print('From client: ', msg)
+            self.csocket.send(bytes(msg, 'utf-8'))
+        print('Client at ', self.caddress, 'disconnected...')
+
+BIND_IP  = '0.0.0.0'
 BIND_PORT = 9999
 
-with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server:
-    server.bind((BIND_IP, BIND_PORT))
-    server.listen(5)
+server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-    print('[*] Listening on %s:%d' %(BIND_IP, BIND_PORT))
+server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 
-    def handle_client(client_socket):
-        data = client_socket.recv(1024)
+server.bind((BIND_IP, BIND_PORT))
 
-        print('[*] Received: %s' %data)
+print('[*] Listening on %s:%d' %(BIND_IP, BIND_PORT))
+print('Waiting for client request...')
 
-        client_socket.send(b'ACK!')
-        client_socket.close()
+while True:
+    server.listen(1)
+    clientsocket, clientaddress = server.accept()
 
-    while True:
-        client, addr = server.accept()
+    print('[*] Accepted connection from: %s:%d' %(clientaddress[0], clientaddress[1]))
 
-        with client:
-            print('[*] Accepted connection from: %s:%d' %(addr[0], addr[1]))
-
-            client_handler = threading.Thread(target = handle_client, args = (client, ))
-            client_handler.start()
+    thread = ClientThread(clientaddress, clientsocket)
+    thread.start()
