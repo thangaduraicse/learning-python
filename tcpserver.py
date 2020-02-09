@@ -15,7 +15,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server:
 
         print('[*] Received: %s' %data)
 
-        client_socket.send('ACK!')
+        client_socket.send(b'ACK!')
         client_socket.close()
 
     while True:

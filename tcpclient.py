@@ -2,8 +2,8 @@
 
 import socket
 
-HOST = 'www.google.com'
-PORT = 80
+HOST = '0.0.0.0'
+PORT = 9999
 
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client:
     client.connect((HOST, PORT))
